@@ -43,15 +43,20 @@ public class Main {
 
         graphAdjencyList.addEdge(0, 1);
         graphAdjencyList.addEdge(1, 2);
-        graphAdjencyList.addEdge(2, 3);
-        graphAdjencyList.addEdge(3, 4);
-        graphAdjencyList.addEdge(4, 5);
+        graphAdjencyList.addEdge(1, 3);
+        graphAdjencyList.addEdge(1, 4);
+        graphAdjencyList.addEdge(3, 5);
         graphAdjencyList.addEdge(5, 6);
         graphAdjencyList.addEdge(2, 6);
 
         Main main = new Main();
         System.out.println(main.BFSLowestDist(graphAdjencyList, 0, 6));
 
+        System.out.println("ponizej schemat przejscia algorytmu");
+        System.out.println("BFS");
+        main.BFS(graphAdjencyList,0);
+        System.out.println("DFS");
+        main.dfs(graphAdjencyList,0);
     }
 
     void BFS(GraphAdjencyList G, int start) {
@@ -59,6 +64,7 @@ public class Main {
         boolean[] visited = new boolean[G.N];
 
         visited[start] = true;
+        System.out.println(start + " " + G.nodes[start]);
         VectorZPOPLIFO.push(start);
         while (VectorZPOPLIFO.count > 0) {
             int nodeToCheck = VectorZPOPLIFO.pop();
@@ -67,6 +73,7 @@ public class Main {
                 if (visited[nodeConnected]) continue;
                 //logic
                 visited[nodeConnected] = true;
+                System.out.println(nodeConnected + " " + G.nodes[nodeConnected]);
                 VectorZPOPLIFO.push(nodeConnected);
             }
         }
@@ -91,5 +98,24 @@ public class Main {
             }
         }
         return -1;
+    }
+
+    public void dfs (GraphAdjencyList G, int start){
+        boolean [] visited = new boolean[G.N];
+        dfsRecursive(G, start, visited);
+    }
+
+    private void dfsRecursive(GraphAdjencyList G, int nodeToCheck, boolean[] visited){
+        visited[nodeToCheck]=true;
+        System.out.println(nodeToCheck + " " + G.nodes[nodeToCheck]);
+        //
+        for(int i = 0; i < G.nodes[nodeToCheck].size;i++) {
+            int nodeConnected = G.nodes[nodeToCheck].get(i);
+            if (!(visited[nodeConnected])==true){
+                dfsRecursive(G,nodeConnected,visited);
+            }
+
+        }
+
     }
 }
